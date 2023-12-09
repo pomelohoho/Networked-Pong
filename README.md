@@ -15,13 +15,13 @@
 - constantly sending the serialized game state to client
 
 Compile and run:
-$make 
-$./server
-$./client computer_name port_number
+- $make 
+- $./server
+- $./client computer_name port_number
 
 Playable file: pong.c
 - move by 'w' and 's'
 
 Compile and run:
-$make 
-$./pong
+- $make 
+- $./pong
