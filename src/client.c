@@ -58,13 +58,12 @@ int main(int argc, char** argv) {
         }
 
         // Check if the input is 'w' or 's'
-        if (ch == 'w' || ch == 's') {
+        // if (ch == 'w' || ch == 's') {
             buffer[0] = ch;
             buffer[1] = '\n';  // Add a newline character
             buffer[2] = '\0';  // Terminate the string
             send_message(socket_fd, buffer);
-  
-        }
+        // }
         GameState state;
         // init_game_state(&state);
 
