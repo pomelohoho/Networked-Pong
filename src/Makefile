@@ -9,10 +9,10 @@ clean:
 pong: pong.c util.c util.h scheduler.c scheduler.h
 	$(CC) $(CFLAGS) -o pong pong.c util.c scheduler.c -lncurses
 
-server: server.c message.h message.c socket.h util.c util.h scheduler.c scheduler.h
-	$(CC) $(CFLAGS) -o server server.c message.c util.c scheduler.c $(LIBS_SERVER)
+server: server.c message.h message.c socket.h game_state.h game_state.c util.c util.h scheduler.c scheduler.h
+	$(CC) $(CFLAGS) -o server server.c message.c util.c scheduler.c game_state.c $(LIBS_SERVER)
 
-client: client.c message.h message.c util.c util.h
+client: client.c message.h message.c util.c util.h 
 	$(CC) $(CFLAGS) -o client client.c message.c util.c -lncurses
 
 zip:
