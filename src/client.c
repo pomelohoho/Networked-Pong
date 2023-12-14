@@ -7,10 +7,9 @@
 #include <curses.h>
 #include "util.h"
 
-
 #define BUFFER_SIZE 1024
 #define MAX_HEIGHT 15
-#define MAX_WIDTH 40
+#define MAX_WIDTH 70
 #define WINNING_SCORE 5  // The game ends when a player reaches this score
 #define PADDLE_SIZE 3  // Increase the paddle size
 
@@ -49,7 +48,7 @@ int main(int argc, char** argv) {
     char buffer[BUFFER_SIZE];
     while (1) {
         // printf("Enter command (w/s): ");
-        int ch = getchar();  // Get a single character input
+        int ch = getch();  // Get a single character input
 
         //Clear the input buffer 
         int c;
@@ -77,7 +76,8 @@ int main(int argc, char** argv) {
         }
         
         if (ch == 'q') break; // Quit on 'q'
-        usleep(10000); // Small delay for smoother animation
+        sleep_ms(100); // Small delay for smoother animation
+
     }
     endwin(); // End ncurses mode
     close(socket_fd);
