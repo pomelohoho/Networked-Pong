@@ -14,6 +14,7 @@
 GameState state;
 pthread_mutex_t state_mutex = PTHREAD_MUTEX_INITIALIZER;
 int client_sockets[MAX_CLIENTS] = {0};
+int connected_clients = 0;
 
 void* handle_client(void* arg);
 void* game_update_loop(void* arg);
@@ -52,12 +53,11 @@ int main() {
         }
 
         pthread_mutex_lock(&state_mutex);
-        int connected_clients = 0;
-        for (int i = 0; i < MAX_CLIENTS; i++) {
-            if (client_sockets[i] != 0) {
-                connected_clients++;
-            }
-        }
+        // for (int i = 0; i < MAX_CLIENTS; i++) {
+        //     if (client_sockets[i] != 0) {
+        //         connected_clients++;
+        //     }
+        // }
 
         if (connected_clients >= MAX_CLIENTS) {
             printf("Maximum clients reached. Rejecting client %d.\n", *client_socket_fd);
@@ -84,6 +84,7 @@ void* handle_client(void* arg) {
     free(arg);
 
     pthread_mutex_lock(&state_mutex);
+    connected_clients++;  // Increment connected clients
     printf("Client connected! Socket FD: %d\n", client_socket_fd);
 
     int clientIndex = -1;
@@ -124,6 +125,7 @@ void* handle_client(void* arg) {
     }
 
     pthread_mutex_lock(&state_mutex);
+    connected_clients--;  // Decrement connected clients
     printf("Client %d disconnected.\n", client_socket_fd);
     client_sockets[clientIndex] = 0;
     pthread_mutex_unlock(&state_mutex);
@@ -134,7 +136,9 @@ void* handle_client(void* arg) {
 void* game_update_loop(void* arg) {
     while (1) {
         pthread_mutex_lock(&state_mutex);
-        update_game_state(&state);
+        if (connected_clients == MAX_CLIENTS) {
+            update_game_state(&state);
+        }
         pthread_mutex_unlock(&state_mutex);
 
         // Sleep for a short duration to control update rate
